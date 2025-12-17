@@ -10,39 +10,92 @@
     <h2>Sorry! Your browser doesn't support Javascript</h2>
 </noscript>
 
-<div id="username-page">
-    <div class="username-page-container">
-        <h1 class="title">Type your username to enter the Chatroom</h1>
-        <form id="usernameForm" name="usernameForm">
-            <div class="form-group">
-                <input type="text" id="name" placeholder="Username" autocomplete="off" class="form-control" />
-            </div>
-            <div class="form-group">
-                <button type="submit" class="accent username-submit">Start Chatting</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div id="chat-page" class="hidden">
-    <div class="chat-container">
-        <div class="chat-header">
-            <h2>live chatting </h2>
+<div id="app">
+    <!-- LEFT SIDEBAR: username + chats list -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <span class="app-title">LiveChat</span>
         </div>
-        <div class="connecting">
-            Connecting...
-        </div>
-        <ul id="messageArea">
 
-        </ul>
-        <form id="messageForm" name="messageForm">
-            <div class="form-group">
-                <div class="input-group clearfix">
-                    <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-                    <button type="submit" class="primary">Send</button>
+        <!-- your existing username-page (just moved inside sidebar) -->
+        <div id="username-page">
+            <div class="username-page-container">
+                <h2 class="sidebar-title">Welcome</h2>
+                <p class="sidebar-subtitle">Type your username to enter the chat</p>
+                <form id="usernameForm" name="usernameForm">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Username"
+                               autocomplete="off" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="accent username-submit">
+                            Start Chatting
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- static chat list for now (left side like WhatsApp) -->
+        <div class="chat-list" id="chat-list">
+            <!-- Example previous chats; you can render these from JS later -->
+            <div class="chat-list-item active">
+                <div class="chat-avatar">L</div>
+                <div class="chat-meta">
+                    <div class="chat-name">Live Room</div>
+                    <div class="chat-last">Start messaging…</div>
                 </div>
             </div>
-        </form>
+            <div class="chat-list-item">
+                <div class="chat-avatar">A</div>
+                <div class="chat-meta">
+                    <div class="chat-name">Alice</div>
+                    <div class="chat-last">Last message preview…</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE: selected chat -->
+    <div class="main">
+        <!-- your existing chat-page, now styled as WhatsApp area -->
+        <div id="chat-page" class="hidden">
+            <div class="chat-header">
+                <div class="chat-header-left">
+                    <div class="chat-avatar header-avatar">L</div>
+                    <div>
+                        <div class="chat-name header-name" id="chat-title">Live Room</div>
+                        <div class="chat-status" id="chat-status">online</div>
+                    </div>
+                </div>
+                <div class="chat-header-actions">
+                    <span class="icon-circle"></span>
+                    <span class="icon-circle"></span>
+                    <span class="icon-circle"></span>
+                </div>
+            </div>
+
+            <div class="chat-body">
+                <div class="connecting">
+                    Connecting...
+                </div>
+                <!-- message area now uses message-list class for bubbles -->
+                <ul id="messageArea" class="message-list">
+                    <!-- main.js will append <li> items here -->
+                </ul>
+            </div>
+
+            <!-- input bar at bottom -->
+            <form id="messageForm" name="messageForm" class="chat-input-area">
+                <div class="form-group">
+                    <div class="input-group clearfix">
+                        <input type="text" id="message" placeholder="Type a message..."
+                               autocomplete="off" class="form-control" />
+                        <button type="submit" class="primary send-button">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

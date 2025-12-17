@@ -70,39 +70,45 @@ function sendMessage(event) {
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
 
-    var messageElement = document.createElement('li');
+    var li = document.createElement('li');
 
-    if(message.type === 'JOIN') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
+    if (message.type === 'JOIN') {
+        li.classList.add('event-message');
+        li.textContent = message.sender + ' joined!';
     } else if (message.type === 'LEAVE') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
+        li.classList.add('event-message');
+        li.textContent = message.sender + ' left!';
     } else {
-        messageElement.classList.add('chat-message');
+        // WhatsApp-style bubble
+        li.className = ''; // clear any default
+        li.classList.add('message');
 
-        var avatarElement = document.createElement('i');
-        var avatarText = document.createTextNode(message.sender[0]);
-        avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender);
+        if (message.sender === username) {
+            li.classList.add('sent');      // right, green
+        } else {
+            li.classList.add('received');  // left, gray
+        }
 
-        messageElement.appendChild(avatarElement);
+        var nameSpan = document.createElement('span');
+        nameSpan.textContent = message.sender;
+        nameSpan.style.display = 'block';
+        nameSpan.style.fontSize = '11px';
+        nameSpan.style.color = '#8696a0';
+        nameSpan.style.marginBottom = '2px';
 
-        var usernameElement = document.createElement('span');
-        var usernameText = document.createTextNode(message.sender);
-        usernameElement.appendChild(usernameText);
-        messageElement.appendChild(usernameElement);
+        var textSpan = document.createElement('span');
+        textSpan.textContent = message.content;
+
+        li.appendChild(nameSpan);
+        li.appendChild(textSpan);
     }
 
-    var textElement = document.createElement('p');
-    var messageText = document.createTextNode(message.content);
-    textElement.appendChild(messageText);
+    console.log('classes on li:', li.className);  // <— check in console
 
-    messageElement.appendChild(textElement);
-
-    messageArea.appendChild(messageElement);
+    messageArea.appendChild(li);
     messageArea.scrollTop = messageArea.scrollHeight;
 }
+
 
 
 function getAvatarColor(messageSender) {
